@@ -1,0 +1,70 @@
+<form>
+  <label>Authentication Search</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="text" token="user">
+      <label>User</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="src">
+      <label>Source</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="dest">
+      <label>Destination</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="app">
+      <label>App</label>
+      <choice value="*">All</choice>
+      <choice value="unknown">Unknown</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <fieldForLabel>app</fieldForLabel>
+      <fieldForValue>app</fieldForValue>
+      <search>
+        <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by Authentication.app | `drop_auth_dm` | fields app | sort app</query>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
+    <input type="dropdown" token="action">
+      <label>Action</label>
+      <choice value="*">All</choice>
+      <choice value="unknown">Unknown</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <fieldForLabel>action</fieldForLabel>
+      <fieldForValue>action</fieldForValue>
+      <search>
+        <query>| `cim_access_actions`</query>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <event>
+        <search>
+          <query>(index=_* OR index=*) (`cim_Authentication_indexes`) tag=authentication NOT (action=success user=*$$) user="$user$" src="$src$" dest="$dest$" app="$app$" action="$action$" | head 100</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="list.drilldown">full</option>
+        <drilldown>
+          <link target="_blank">search?q=index=* (`cim_Authentication_indexes`) tag=authentication NOT (action=success user=*$$) user="$user$" src="$src$" dest="$dest$" app="$app$" action="$action$"&amp;earliest=$field1.earliest$&amp;latest=$field1.latest$</link>
+        </drilldown>
+      </event>
+    </panel>
+  </row>
+</form>

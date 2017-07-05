@@ -1,0 +1,7 @@
+<panel>
+  <title>Top Users by Action</title>
+  <table>
+    <search ref="Top Users by Action"></search>
+    <option name="drilldown">none</option>
+  </table>
+</panel>

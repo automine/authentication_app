@@ -1,0 +1,38 @@
+<form>
+  <label>Sourcetypes</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Authentication Sourcetypes over Time</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats_prestats` count from datamodel=Authentication.Authentication by _time sourcetype span=1h | timechart count by sourcetype span=1h</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Authentication Sourcetype Counts</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by sourcetype</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+</form>

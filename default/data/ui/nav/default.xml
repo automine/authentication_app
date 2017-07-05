@@ -1,0 +1,17 @@
+<nav search_view="search" color="#0F6057">
+  <view name="authentication_overview" default='true' />
+  <view name="authentication_user_profile" />
+  <view name="authentication_source_profile" />
+  <view name="authentication_destination_profile" />
+  <view name="authentication_app_profile" />
+  <view name="authentication_action_profile" />
+  <view name="authentication_default_authentication" />
+  <view name="authentication_privileged_authentication" />
+  <collection label="Advanced" >
+    <view name="authentication_search" />
+  	<view name="authentication_geography" />
+  	<view name="authentication_sourcetypes" />
+  	<view name="search" />
+  	<view name="dashboards" />
+  </collection>
+</nav>

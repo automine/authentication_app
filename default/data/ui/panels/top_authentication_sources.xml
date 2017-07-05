@@ -1,0 +1,11 @@
+<panel>
+  <table>
+    <title>Top Authentication Sources</title>
+    <search>
+      <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by Authentication.src | `drop_auth_dm` | sort 10 - count</query>
+      <earliest>$field1.earliest$</earliest>
+      <latest>$field1.latest$</latest>
+    </search>
+    <option name="drilldown">none</option>
+  </table>
+</panel>

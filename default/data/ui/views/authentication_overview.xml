@@ -1,0 +1,172 @@
+<form>
+  <label>Overview</label>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Distinct Users</title>
+      <single>
+        <search>
+          <query>| `authentication_tstats` dc(Authentication.user) as distinct_users from datamodel=Authentication.Authentication</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="underLabel">Users</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Distinct Authentication Sources</title>
+      <single>
+        <search>
+          <query>| `authentication_tstats` dc(Authentication.src) as distinct_src from datamodel=Authentication.Authentication</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="underLabel">Sources</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Distinct Apps</title>
+      <single>
+        <search>
+          <query>| `authentication_tstats` dc(Authentication.app) as distinct_apps from datamodel=Authentication.Authentication</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="underLabel">Apps</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Authentication Actions Over Time</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats_prestats` count from datamodel=Authentication.Authentication by Authentication.action _time span=1h | `drop_auth_dm`| timechart span=1h count by action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">all</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_action_profile?form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.action=$click.name2$</link>
+        </drilldown>
+      </chart>
+    </panel>
+    <panel>
+      <title>Authentication over time by app</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats_prestats` count from datamodel=Authentication.Authentication by Authentication.app _time span=1h | `drop_auth_dm`| timechart span=1h count by app</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_app_profile?form.app=$click.name2$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Users by Action</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by Authentication.user Authentication.action | `drop_auth_dm` | sort 10 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_user_profile?form.user=$row.user$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Authentication Sources with Multiple Users</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats` dc(Authentication.user) AS user_count from datamodel=Authentication.Authentication by Authentication.src | `drop_auth_dm`| search user_count &gt; 1| sort 10 - user_count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">all</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_source_profile?form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.src=$click.value$</link>
+        </drilldown>
+      </chart>
+    </panel>
+    <panel>
+      <title>Top Authentication Sources</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by Authentication.src | `drop_auth_dm` | sort 10 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_source_profile?form.src=$row.src$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Authentication Destinations</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by Authentication.dest | `drop_auth_dm` | sort 10 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_destination_profile?form.dest=$row.dest$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,11 @@
+<panel>
+  <table>
+    <title>Top Users by Action</title>
+    <search>
+      <query>| `authentication_tstats` count from datamodel=Authentication.Authentication by Authentication.user Authentication.action | `drop_auth_dm` | sort 10 - count</query>
+      <earliest>-24h@h</earliest>
+      <latest>now</latest>
+    </search>
+    <option name="drilldown">none</option>
+  </table>
+</panel>

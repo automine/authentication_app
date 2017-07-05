@@ -1,0 +1,120 @@
+<form>
+  <label>Action Profile</label>
+  <fieldset submitButton="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="action">
+      <label>Action</label>
+      <fieldForLabel>action</fieldForLabel>
+      <fieldForValue>action</fieldForValue>
+      <search>
+        <query>| `cim_access_actions`</query>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+      <choice value="unknown">unknown</choice>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Action over time</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats_prestats` count from datamodel=Authentication.Authentication where Authentication.action="$action$" by _time Authentication.action span=1h | `drop_auth_dm` | timechart span=1h count by action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">all</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.action=$action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+        </drilldown>
+      </chart>
+    </panel>
+    <panel>
+      <title>Applications with "$action$" Authentication</title>
+      <chart>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.action="$action$" by Authentication.app | `drop_auth_dm`</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">all</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.action=$action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.app=$click.value$</link>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top "$action$" users</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.action="$action$" by Authentication.user | `drop_auth_dm`| sort 100 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.action=$action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.user=$row.user$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top "$action$" Sources</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.action="$action$" by Authentication.src | `drop_auth_dm`| sort 100 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.action=$action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.src=$row.src$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top "$action$" Destinations</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.action="$action$" by Authentication.dest | `drop_auth_dm`| sort 100 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.action=$action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.dest=$row.dest$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top "$action$" Conversations</title>
+      <table>
+        <search>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.action="$action$" by Authentication.src Authentication.dest | `drop_auth_dm`| sort 100 - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.action=$action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.src=$row.src$&amp;form.dest=$row.dest$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>
