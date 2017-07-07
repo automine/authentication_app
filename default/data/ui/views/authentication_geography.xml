@@ -13,12 +13,12 @@
     <panel>
       <map>
         <search>
-          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.src!="192.168.*" Authentication.src!="172.16.*" Authentication.src!="172.17.*" Authentication.src!="172.18.*" Authentication.src!="172.19.*" Authentication.src!="172.20.*" Authentication.src!="172.21.*" Authentication.src!="172.22.*" Authentication.src!="172.23.*" Authentication.src!="172.24.*" Authentication.src!="172.25.*" Authentication.src!="172.26.*" Authentication.src!="172.27.*" Authentication.src!="172.28.*" Authentication.src!="172.29.*" Authentication.src!="172.30.*" Authentication.src!="172.31.*" Authentication.src!="10.*" Authentication.src!="127.*" by Authenticaiton.src | `drop_auth_dm` | iplocation src</query>
+          <query>| `authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.src!="192.168.*" Authentication.src!="172.16.*" Authentication.src!="172.17.*" Authentication.src!="172.18.*" Authentication.src!="172.19.*" Authentication.src!="172.20.*" Authentication.src!="172.21.*" Authentication.src!="172.22.*" Authentication.src!="172.23.*" Authentication.src!="172.24.*" Authentication.src!="172.25.*" Authentication.src!="172.26.*" Authentication.src!="172.27.*" Authentication.src!="172.28.*" Authentication.src!="172.29.*" Authentication.src!="172.30.*" Authentication.src!="172.31.*" Authentication.src!="10.*" Authentication.src!="127.*" by Authentication.src Authentication.action | `drop_auth_dm` | iplocation src | geostats latfield=lat longfield=lon count by action</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
-        <option name="mapping.type">choropleth</option>
+        <option name="mapping.type">marker</option>
       </map>
     </panel>
   </row>

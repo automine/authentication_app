@@ -30,7 +30,7 @@ export = system
 ### Views
 [views]
 access = read : [ * ], write : [ admin, power ]
-export = none
+export = system
 
 ### Macros
 [macros]

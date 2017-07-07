@@ -107,5 +107,7 @@ This app was created by David Shpritz of [Aplura, LLC.](http://www.aplura.com/)
 
 ## Release history
 
+### v1.1
+* Fixed to the geography page
 ### v1.0
 Initial release

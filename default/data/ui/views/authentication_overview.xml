@@ -59,7 +59,7 @@
         <option name="charting.chart">area</option>
         <option name="charting.drilldown">all</option>
         <drilldown>
-          <link target="_blank">/app/authentication_app/authentication_action_profile?form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.action=$click.name2$</link>
+          <link target="_blank">authentication_action_profile?form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$&amp;form.action=$click.name2$</link>
         </drilldown>
       </chart>
     </panel>
@@ -99,7 +99,7 @@
         <option name="trellis.scales.shared">1</option>
         <option name="trellis.size">medium</option>
         <drilldown>
-          <link target="_blank">/app/authentication_app/authentication_app_profile?form.app=$click.name2$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+          <link target="_blank">authentication_app_profile?form.app=$click.name2$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
         </drilldown>
       </chart>
     </panel>
