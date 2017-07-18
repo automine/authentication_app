@@ -117,4 +117,20 @@
       </table>
     </panel>
   </row>
+  <row>
+    <panel>
+      <title>Summary of the 100 most recent events</title>
+      <table>
+        <search>
+          <query>|`authentication_tstats` count from datamodel=Authentication.Authentication where Authentication.action = "$action$" by _time Authentication.user Authentication.src Authentication.dest Authentication.app Authentication.action | `drop_auth_dm` | sort 100 - _time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">/app/authentication_app/authentication_search?form.user=$row.user$&amp;form.src=$row.src$&amp;form.dest=$row.dest$&amp;form.app=$row.app$&amp;form.action=$row.action$&amp;form.field1.earliest=$earliest$&amp;form.field1.latest=$latest$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
 </form>

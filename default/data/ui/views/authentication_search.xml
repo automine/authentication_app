@@ -56,7 +56,7 @@
     <panel>
       <event>
         <search>
-          <query>(index=_* OR index=*) (`cim_Authentication_indexes`) tag=authentication NOT (action=success user=*$$) user="$user$" src="$src$" dest="$dest$" app="$app$" action="$action$" | head 100</query>
+          <query>| from datamodel:Authentication.Authentication | search user="$user$" src="$src$" dest="$dest$" app="$app$" action="$action$" | head 100</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
