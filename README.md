@@ -107,10 +107,15 @@ This app was created by David Shpritz of [Aplura, LLC.](http://www.aplura.com/)
 
 ## Release history
 
+### v1.3
+* Changed search on the geography page to respect the time picker (thanks mattymo!)
+
 ### v1.2
 * Converted event views at the bottom of profile pages to use tstats-based searches instead of raw events
 * Converted Authentication Search panel to use the `from` command instead of `datamodel`
+
 ### v1.1
 * Fixed to the geography page
+
 ### v1.0
 Initial release
