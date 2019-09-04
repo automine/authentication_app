@@ -1,5 +1,8 @@
 # Authentication App for Splunk
 
+## Deprecation Warning!!!
+__This app has been deprecated. There will be no new development or bug fixes. It has been replaced by the [Aplura Authentication App for Splunk](https://splunkbase.splunk.com/app/4227/).__
+
 ## Overview
 Most sourcetypes contain authentication events of some sort. This app provides Splunk dashboards, forms, and reports which can be used to explore your authentication events across your different sourcetypes.
 
@@ -57,7 +60,7 @@ This app depends on data models included in the Splunk Common Information Model 
 
 The Splunk Common Information Model Add-on can be downloaded from [Splunkbase](https://apps.splunk.com/app/1621/).
 
-This app has been tested with versions 4.8 of the CIM add-on. 
+This app has been tested with versions 4.8 of the CIM add-on.
 
 ### Data model Acceleration on the Authentication data model
 In order to make the app respond and load quickly, accelerated data models are used to provide summary data. For this data to be available, the `Authentication` data model must be accelerated. Information on how to enable acceleration for the `Authentication` data model can be found [here](http://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Managedatamodels#Enable_data_model_acceleration). The data model must be accelerated for the length of time for which you would like to see reporting.
@@ -106,6 +109,9 @@ Need help? Use the Splunk community resources! I can be found on many of them:
 This app was created by David Shpritz of [Aplura, LLC.](http://www.aplura.com/)
 
 ## Release history
+
+### v1.4
+* Added deprecation warning and link to replacement.
 
 ### v1.3
 * Changed search on the geography page to respect the time picker (thanks mattymo!)
